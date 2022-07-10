@@ -2,9 +2,11 @@ import { Notifications, SearchSharp } from "@mui/icons-material";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
+    const { logOut} = useAuth()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -40,13 +42,14 @@ function Header() {
         <SearchSharp className="inline w-6 h-6 md:hidden" />
         <p className="hidden lg:inline">Kids</p>
         <Notifications className="h-6 w-6" />
-        <Link href={"/account"}>
+        {/* <Link href={"/account"}> */}
           <img
+            onClick={logOut}
             src="https://rb.gy/g1pwyx"
             alt=""
             className="cursor-pointer rounded"
           />
-        </Link>
+        {/* </Link> */}
       </div>
     </header>
   );

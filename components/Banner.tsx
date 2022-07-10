@@ -6,6 +6,8 @@ import {
 import Image from "next/image";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { modalState, movieState } from "../atom/modalAtom";
 import { baseurl } from "../constants/movie";
 import { Movie } from "../typings";
 
@@ -15,6 +17,8 @@ interface Props {
 
 function Banner({ netflixOriginals }: Props) {
   const [movie, setMovie] = useState<Movie | null>(null);
+  const [showModal, setShowModal] = useRecoilState(modalState)
+  const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
 
   useEffect(() => {
     setMovie(
@@ -22,7 +26,6 @@ function Banner({ netflixOriginals }: Props) {
     );
   }, [netflixOriginals]);
 
-  console.log(movie);
   return (
     <div className="flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[64vh] lg:justify-end lg:pb-12">
       <div className="absolute top-0 -z-10 left-0 h-[95vh] w-screen ">
@@ -43,7 +46,12 @@ function Banner({ netflixOriginals }: Props) {
           <PlayArrow className=" text-black" />
           Play
         </button>
-        <button className="bannerButton bg-[gray]/70">
+        <button 
+        onClick={()=> {
+          setCurrentMovie(movie)
+          setShowModal(true)
+        }}
+        className="bannerButton bg-[gray]/70">
           More Info <InfoRounded />
         </button>
       </div>
